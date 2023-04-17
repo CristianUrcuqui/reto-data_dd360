@@ -44,7 +44,8 @@ Utilice las siguientes credenciales predeterminadas para iniciar sesión:
 Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 
 ## Se deben crear dos Conexiones para que funcione el flujo 
-```
-Conexión a snowflake 
-```
-https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png
+
+Se enviarán al correo que me envió la prueba, las credenciales de un usuario creado 
+En esta práctica podemos ver temas de gobernanza y seguridad en los datos 
+
+![Como debe quedar la conexión]([URL_de_la_imagen](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png))

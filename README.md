@@ -26,11 +26,11 @@ Estos son los archivos y directorios más relevantes del proyecto:
 
 - [Docker](https://docs.docker.com/install/) `2.1.0.1` or greater.
 
-## Iniciado Airflow 
+## Iniciando Airflow 
 ```
-inicar airflow docker-compose up -d   
-parar airflow docker-compose stop
-reiniciar airflow docker-compose restart
+Start airflow docker-compose up -d   
+Stop airflow docker-compose stop
+restart airflow docker-compose restart
 ```
 
 ## Acceder a la interfaz web
@@ -46,11 +46,11 @@ Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 ## Se deben crear dos Conexiones para que funcione el flujo 
 
 Se enviarán al correo las credenciales de un usuario creado.
-Algo más que podemos ver son los principios en gobiernos de datos
+Algo más que podemos ver son los principios en gobiernos de datos.
 
 ![conexión de Snowflake](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png)
 
-Además se creó un usuario de AWS con acceso a s3 de igual se envia los access key  
+Además se creó un usuario de AWS con acceso a s3.
 
 ![conexción de s3](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/s3_conn.png)
 

@@ -47,4 +47,4 @@ Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 ```
 Conexión a snowflake 
 ```
-https://drive.google.com/file/d/1LCJgIl3LdjNqy9NX_IgwcrPdBsLt6U3k/view?usp=sharing
+https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png

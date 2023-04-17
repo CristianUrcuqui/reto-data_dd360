@@ -47,4 +47,4 @@ Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 ```
 Conexión a snowflake 
 ```
-https://drive.google.com/drive/u/0/folders/17aT4fiNMFErh1VX1u9J6mv09mbJocOqI
+https://drive.google.com/file/d/1LCJgIl3LdjNqy9NX_IgwcrPdBsLt6U3k/view?usp=sharing

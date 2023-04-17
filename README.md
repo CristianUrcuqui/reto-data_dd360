@@ -28,7 +28,17 @@ Estos son los archivos y directorios más relevantes del proyecto:
 
 ## Iniciado Airflow 
 ```
-docker-compose up -d   
-docker-compose stop
-docker-compose restart
+inicar airflow docker-compose up -d   
+parar airflow docker-compose stop
+reiniciar airflow docker-compose restart
 ```
+
+## Acceder a la interfaz web
+
+Una vez que construya y ejecute Airflow, abra un navegador web y navegue a [http://localhost:8080](http://localhost:8080).
+Utilice las siguientes credenciales predeterminadas para iniciar sesión:
+
+> usuario: airflow  
+> Contraseña: airflow
+
+Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.

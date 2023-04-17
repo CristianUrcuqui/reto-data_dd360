@@ -48,4 +48,4 @@ Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 Se enviarán al correo que me envió la prueba, las credenciales de un usuario creado 
 En esta práctica podemos ver temas de gobernanza y seguridad en los datos 
 
-![Como debe quedar la conexión]([URL_de_la_imagen](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png))
+![Como debe quedar la conexión](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png)

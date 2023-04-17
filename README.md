@@ -20,3 +20,15 @@ Estos son los archivos y directorios más relevantes del proyecto:
 ├── .env
 ├── docker-compose
 ```
+# Comenzando
+
+## Requisitos de instalación
+
+- [Docker](https://docs.docker.com/install/) `2.1.0.1` or greater.
+
+## Iniciado Airflow 
+```
+docker-compose up -d   
+docker-compose stop
+docker-compose restart
+```

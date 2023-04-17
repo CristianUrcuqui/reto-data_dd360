@@ -42,3 +42,9 @@ Utilice las siguientes credenciales predeterminadas para iniciar sesión:
 > Contraseña: airflow
 
 Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
+
+## Se deben crear dos Conexiones para que funcione el flujo 
+```
+Conexión a snowflake 
+```
+https://drive.google.com/drive/u/0/folders/17aT4fiNMFErh1VX1u9J6mv09mbJocOqI

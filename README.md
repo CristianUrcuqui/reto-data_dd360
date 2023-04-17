@@ -45,7 +45,12 @@ Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 
 ## Se deben crear dos Conexiones para que funcione el flujo 
 
-Se enviarán al correo que me envió la prueba, las credenciales de un usuario creado 
-En esta práctica podemos ver temas de gobernanza y seguridad en los datos 
+Se enviarán al correo las credenciales de un usuario creado.
+Algo más que podemos ver son los principios en gobiernos de datos
 
-![Como debe quedar la conexión](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png)
+![conexión de Snowflake](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png)
+
+Además se creó un usuario de AWS con acceso a s3 de igual se envia los access key  
+
+![conexción de s3](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/s3_conn.png)
+

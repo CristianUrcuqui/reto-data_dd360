@@ -4,7 +4,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
 from data_360.utils.__init__ import cargar_archivo
-from data_360.utils.data_to_snowflake import cargar_archivo_mas_reciente_a_snowflake,after_load_data_to_snowflake
+from data_360.utils.data_to_snowflake import cargar_archivo_mas_reciente_a_snowflake
 from data_360.utils.load_file_local import load_data_to_snowflake
 import settings 
 
@@ -35,18 +35,6 @@ to_snowflake = PythonOperator(
             task_id='to_snowflake',
             python_callable=cargar_archivo_mas_reciente_a_snowflake,
             provide_context=True,
-            dag=dag,
-        )
-
-after_audit = PythonOperator(
-            task_id='after_audit',
-            python_callable=after_load_data_to_snowflake,
-            op_kwargs={
-                'task' : 'to_snowflake',
-                'table': 'SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ',
-                'database': 'CONAGUA_PRONOSTICO',
-                'schema': 'API_PRONOSTICO_CONAGUA_MX'
-            },
             dag=dag,
         )
 
@@ -86,5 +74,5 @@ data_pronostico = SnowflakeOperator(
     )
 
 
-trancate_table >> s3_load >> to_snowflake  >> after_audit >> pronostico_municipios >> [load_local >> data_pronostico]
+trancate_table >> s3_load >> to_snowflake  >> pronostico_municipios >> [load_local >> data_pronostico]
 

@@ -58,43 +58,10 @@ def cargar_archivo_mas_reciente_a_snowflake():
         FROM TEMP_PRONOSTICO_POR_MUNICIPIOS_GZ temp
         LEFT JOIN SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ dest ON temp.nmun = dest.nmun AND temp.hloc = dest.hloc
         WHERE dest.nmun IS NULL;
+
+        DROP TABLE  TEMP_PRONOSTICO_POR_MUNICIPIOS_GZ;
     """
     snowflake_hook.run(insert_query)
     rows_inserted = snowflake_hook.get_cursor().rowcount
 
     return rows_inserted
-
-
-
-def after_load_data_to_snowflake(task, table, database,schema, **context):
-    registros_insertados = context['ti'].xcom_pull(task_ids=f'{task}', key='return_value')
-    fecha_inicio = context['dag_run'].start_date
-    if fecha_inicio.tzinfo is None:
-        fecha_inicio = fecha_inicio.replace(tzinfo=pytz.UTC)
-
-    # Obtener la fecha de finalización actual y asegurarse de que tenga información de zona horaria
-    fecha_finalizacion = datetime.now(pytz.UTC)
-    tiempo_duracion = (fecha_finalizacion - fecha_inicio).total_seconds()
-
-    # Resto del có
-
-    query =(f"""
-
-            INSERT INTO CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_AUDIT 
-            (registros_insertados,
-            tiempo_duracion, 
-            fecha_inicio, 
-            fecha_finalizacion, 
-            nombre_tabla, 
-            base_de_datos, 
-            esquema) 
-            VALUES (
-            {0 if registros_insertados is None else registros_insertados},
-            {tiempo_duracion},
-            '{fecha_inicio}',
-            '{fecha_finalizacion}',
-            '{table}', 
-            '{database}', 
-            '{schema}');""")
-        
-    execute_snowflake(query, snowflake_conn_id, True)

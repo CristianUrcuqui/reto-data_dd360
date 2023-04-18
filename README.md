@@ -82,16 +82,21 @@ La ruta en la que se guardan toda la lógica es en dags/data_360/utils
 * el promedio de temperatura y precipitación de las últimas dos horas.
 
 - cargar_archivo_mas_reciente_a_snowflake() -> esta funcion se encarga de escoger el archivo más reciente del bucket de s3, posterior a eso se carga a snowflake,
-    -- el primer paso es crear una tabla temporal create_temp_table_query
-    -- creamos un stage en snowflake el cual se va encargar de hacer la comunicación entre s3 y snowflake
-    mas en https://docs.snowflake.com/en/sql-reference/sql/create-stage
-- insert_query insertamos la data de la tabla temporal en la tabla original con un current, además esto nos ayuda a evitar duplicidad en los datos.
-para esta función retornamos el número de row insertados, esto con el fin de auditar los datos que se inserta, por que hacer esto? pensé en esto debido    a que esta tabla es nuestra tabla máster, y en necesario hacer esto en caso de querer conciliar la información de acuerdo a la data que se inserta en 
+- el primer paso es crear una tabla temporal create_temp_table_query
+- creamos un stage en snowflake el cual se va encargar de hacer la comunicación entre s3 y snowflake
+mas en https://docs.snowflake.com/en/sql-reference/sql/create-stage
+- insert_query insertamos la data de la tabla temporal en la tabla original con un current, 
+además esto nos ayuda a evitar duplicidad en los datos.
+para esta función retornamos el número de row insertados, esto con el fin de auditar los datos que se inserta, 
+por que hacer esto? pensé en esto debido    a que esta tabla es nuestra tabla máster,
+y en necesario hacer esto en caso de querer conciliar la información de acuerdo a la data que se inserta en 
 s3 y la data que se inserta en snowflake 
 
 la función es la que se va utilizar en el dag.
 
-lo enunciado anteriormente se ejecuta en la función after_load_data_to_snowflake(task, table, database,schema, **context) esta función se usará en el dag se le deben pasar los parámetros, task de XCOM, Nombre de la tabla que queremos auditar, base de datos y esquema.
+lo enunciado anteriormente se ejecuta en la función after_load_data_to_snowflake(task, table, database,schema, **context)
+esta función se usará en el dag se le deben pasar los parámetros, task de XCOM
+Nombre de la tabla que queremos auditar, base de datos y esquema.
 
 > > Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ;
 

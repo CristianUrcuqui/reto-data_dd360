@@ -1,4 +1,6 @@
 # reto-data_dd360
+## Arquitectura 
+![Arquitectura Propuesta](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/DD360_RETO.drawio.png)
 ## Estructura del proyecto
 
 Estos son los archivos y directorios más relevantes del proyecto:

@@ -104,8 +104,10 @@ la función es la que se va utilizar en el dag
 
 
 ```
-> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ; Contiene los datos maestros 
-> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.PRONOSTICO_MUNICIPIOS; Contiene los datos del análisis de promedios 
+> Consultar la siguente tabla:
+> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ; Contiene los datos maestros 
+> Consultar la siguente tabla: 
+> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.PRONOSTICO_MUNICIPIOS; Contiene los datos del análisis de promedios 
 
 ### Parte 3
 ```

@@ -55,7 +55,7 @@ Además se creó un usuario de AWS con acceso a s3.
 ![conexción de s3](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/s3_conn.png)
 
 ##  Iniciado el reto 
-
+```
 Teniendo una secuencia nos vamos a guiar en los puntos expuesto es el documento enviado.
 
 El equipo de Ciencia de Datos se ha acercado a ti ya que necesitan incorporar información
@@ -73,5 +73,5 @@ pronostico_conagua() -> descarga los datos, al acceder a la api lo primero para 
 ultimo_registro(data) -> esta función nos devuelve el último registros de acuerdo al municipio y hora 
 guardar_to_s3(df, s3_bucket_name, file_name) -> esta función se encarga de guardar el archivo en un bucket, se le debe pasar los parámetros data que es del punto a. el nombre del bucket y el nombre del archivo el cual se va guardar con una marca de tiempo de acuerdo a la hora en que se ejecute.
 cargar_archivo() -> se encarga de llamar la función del punto C y aquí es donde le pasamos los parámetros. Esta función es la que se llamará en el DAG. 
-
+```
 

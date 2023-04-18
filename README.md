@@ -104,14 +104,30 @@ la función es la que se va utilizar en el dag
 
 
 ```
-> Consultar la siguente tabla:
-> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ; Contiene los datos maestros >
-> Consultar la siguente tabla: 
+> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ; Contiene los datos maestros > >
 > SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.PRONOSTICO_MUNICIPIOS; Contiene los datos del análisis de promedios 
 
 ### Parte 3
 ```
+* Hay una carpeta “data_municipios” que contiene datos a nivel municipio organizados
+por fecha, cada vez que tu proceso se ejecute debe generar una tabla en la cual se
+crucen los datos más recientes de esta carpeta con los datos generados en el punto 2.
 
+- para esto cargamos los archivos en un carpeta local ubicación dags/data_360/files
+
+- con los archivos en el entorno local podemos crear un función la cual mezcla los dos archivos 
+read_files_to_dataframe -> el cual requiere el archivo 1 y el 2 esto retorna la combinación de los df combined_df
+
+- load_dataframe_to_snowflake -> cargamos el resultado del df a snowflake 
+
+- load_data_to_snowflake -> esta función es la que llamaremos en el dag le pasamos estos paramentos (file_path1, file_path2, table_name, snowflake_conn_id, database_name,schema_name)
+
+la tabla en la que guarda la data se trunca cada vez que inicia el proceso.
 ```
-
+esta tabla contiene los datos de los archivos locales 
+> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_MUNICIPIOS;
+```
+El nombre del archivo DATA_PRONOSTICO_MUNICIPIO.sql cruza los datos cada que se ejecuta el proceso y crea la siguiente tabla 
+```
+> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO;
 

@@ -177,3 +177,5 @@ github o bitbucket son herramientas para control de versión que se puede seguir
 snowflake es una buena herramienta para procesar información en grandes masas, se adapta muy bien a cualquier entorno.
 
 Aws, S3 a mi parecer es una buena práctica almacenar los datos, ya que se pueden utilizar en los requerimientos que queramos, sin tener que llenar la memoria de nuestra instancia de airflow 
+
+> video tutorial https://drive.google.com/file/d/1zeOy4YhD_ApPAvMbyY1197NkExVNIkoG/view?usp=share_link

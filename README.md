@@ -146,10 +146,41 @@ esta tabla contiene los datos más recientes del punto 3
 > SELECT * FROM  CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO_version_current;
 
 # Extras 
+## Logs
 ```
 Este proceso guarda los logs que se generan en airflow, además estos logs se guardan en snowflake  para ello se ha creado un archivo .Py llamado settings.py el cual contiene funciones que nos ayudan a guardar los logs en snowflake y ejecutar consultas en snowflake 
 ```
 se pueden consultar los logs de airflow en la siguiente tabla 
 
 > SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.AIRFLOW_TASK_LOGS;
+
+
+# Dag 
+
+El Dag llamado weather_data_dag.py se ejecuta cada hora.
+
+## Preguntas adicionales
+● ¿Qué mejoras propondrías a tu solución para siguientes versiones?
+He tratado de utilizar herramientas que están a la vanguardia de este tipo de retos como lo es S3; snowflake. intente hacer un ejercicio lo más real posible, por ende creo que una mejora para una siguiente versión seria ver nuevas arquitecturas como análisis en tiempo real, con KSQL y Kafka, O tocar temas de data catalog para no perder la trazabilidad de los datos en cuanto a definiciones. demás de alertamientos y notificaciones, puede ser por slack o al correo informado si falla o si queremos mensajes más informativos,
+el código propuesto es algo genérico para el reto, habría que modificacione algunas funciones para que se pueden adaptar a cualquier tiempo de requerimiento de este tipo.
+
+● Tu solución le ha gustado al equipo y deciden incorporar otros procesos, habrá nuevas
+personas colaborando contigo, ¿Qué aspectos o herramientas considerarías para
+escalar, organizar y automatizar tu solución?
+
+una forma de escalar esto es creando un gobierno de datos, de esa forma los equipos solo se centran en lo que les interesan, además de proteger la integridad de los datos. 
+
+empezar a usar roles para cada desarrollador, con el fin de poder asegurarse que el código que se proporciona es de calidad.
+
+airflow es una buena herramienta de orquestación, por ende seria lo mejor empezar a mirar como se migar a un kubernetes y empezar a trabajar con jenkins para hacer pasos a producción mientras la máquina sigue prendida  
+
+github o bitbucket son herramientas para control de versión que se puede seguir usado
+
+snowflake es una buena herramienta para procesar información en grandes masas, se adapta muy bien a cualquier entorno.
+
+Aws, S3 a mi parecer es una buena práctica almacenar los datos, ya que se pueden utilizar en los requerimientos que queramos, sin tener que llenar la memoria de nuestra instancia de airflow 
+
+
+
+
 

@@ -144,3 +144,12 @@ además se creo una vista en snowflake
 esta tabla contiene los datos más recientes del punto 3 
 ```
 > SELECT * FROM  CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO_version_current;
+
+# Extras 
+```
+Este proceso guarda los logs que se generan en airflow, además estos logs se guardan en snowflake  para ello se ha creado un archivo .Py llamado settings.py el cual contiene funciones que nos ayudan a guardar los logs en snowflake y ejecutar consultas en snowflake 
+```
+se pueden consultar los logs de airflow en la siguiente tabla 
+
+> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.AIRFLOW_TASK_LOGS;
+

@@ -131,3 +131,16 @@ El nombre del archivo DATA_PRONOSTICO_MUNICIPIO.sql cruza los datos cada que se 
 ```
 > SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO;
 
+### Parte 4 
+```
+Versiona todas tus tablas de acuerdo a la fecha y hora en la que se ejecutó el proceso,
+en el caso del entregable del punto 3, además, genera una versión “current” que
+siempre contenga una copia de los datos más recientes.
+
+Las tablas creadas contiene una la columna insertd_at, la cual contiene la fecha en la que se insertan los datos a las tablas, teniendo asi una marca de tiempo de los datos insertados 
+
+además se creo una vista en snowflake 
+
+esta tabla contiene los datos más recientes del punto 3 
+```
+> SELECT * FROM  CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO_version_current;

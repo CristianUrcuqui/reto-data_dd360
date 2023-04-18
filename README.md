@@ -98,9 +98,6 @@ lo enunciado anteriormente se ejecuta en la función after_load_data_to_snowflak
 esta función se usará en el dag se le deben pasar los parámetros, task de XCOM
 Nombre de la tabla que queremos auditar, base de datos y esquema.
 
-> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ;
-
-
-
 ```
+> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ;
 

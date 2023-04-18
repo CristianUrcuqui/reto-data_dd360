@@ -56,8 +56,6 @@ Además se creó un usuario de AWS con acceso a s3.
 
 ##  Iniciado el reto 
 
-### Parte 1
-```
 Teniendo una secuencia nos vamos a guiar en los puntos expuesto es el documento enviado.
 
 El equipo de Ciencia de Datos se ha acercado a ti ya que necesitan incorporar información
@@ -66,6 +64,8 @@ web: https://smn.conagua.gob.mx/es/web-service-api. Te piden que los apoyes en l
 
 La ruta en la que se guardan toda la lógica es en dags/data_360/utils
 
+### Parte 1
+```
 * Cada hora debes consumir el último registro devuelto por el servicio de pronóstico por municipio y por hora.
 
 -Para resolver este primer punto se ha creado un archivo .Py  __init__.py. 
@@ -75,5 +75,13 @@ La ruta en la que se guardan toda la lógica es en dags/data_360/utils
 -ultimo_registro(data) -> esta función nos devuelve el último registros de acuerdo al municipio y hora 
 -guardar_to_s3(df, s3_bucket_name, file_name) -> esta función se encarga de guardar el archivo en un bucket, se le debe pasar los parámetros data que es del punto a. el nombre del bucket y el nombre del archivo el cual se va guardar con una marca de tiempo de acuerdo a la hora en que se ejecute.
 -cargar_archivo() -> se encarga de llamar la función del punto C y aquí es donde le pasamos los parámetros. Esta función es la que se llamará en el DAG. 
+```
+> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ;
+### parte 2
+```
+* A partir de los datos extraídos en el punto 1, generar una tabla a nivel municipio en la que cada registro contenga el promedio de temperatura y precipitación de las últimas dos horas.
+
+
+
 ```
 

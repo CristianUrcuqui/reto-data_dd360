@@ -56,7 +56,7 @@ Además se creó un usuario de AWS con acceso a s3.
 
 ![conexción de s3](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/s3_conn.png)
 
-##  Iniciado el reto 
+##  Iniciando el reto 
 
 Teniendo una secuencia nos vamos a guiar en los puntos expuesto es el documento enviado.
 

@@ -96,10 +96,6 @@ s3 y la data que se inserta en snowflake
 
 la función es la que se va utilizar en el dag.
 
-lo enunciado anteriormente se ejecuta en la función after_load_data_to_snowflake(task, table, database,schema, **context)
-esta función se usará en el dag se le deben pasar los parámetros, task de XCOM
-Nombre de la tabla que queremos auditar, base de datos y esquema.
-
 además se utiliza el operador Snowflake operator para ejecutar el archivo PRONOSTICO_MUNICIPIOS.sql el cual tiene el análisis de los promedios 
 
 la función es la que se va utilizar en el dag 
@@ -181,8 +177,3 @@ github o bitbucket son herramientas para control de versión que se puede seguir
 snowflake es una buena herramienta para procesar información en grandes masas, se adapta muy bien a cualquier entorno.
 
 Aws, S3 a mi parecer es una buena práctica almacenar los datos, ya que se pueden utilizar en los requerimientos que queramos, sin tener que llenar la memoria de nuestra instancia de airflow 
-
-
-
-
-

@@ -98,6 +98,18 @@ lo enunciado anteriormente se ejecuta en la función after_load_data_to_snowflak
 esta función se usará en el dag se le deben pasar los parámetros, task de XCOM
 Nombre de la tabla que queremos auditar, base de datos y esquema.
 
+además se utiliza el operador Snowflake operator para ejecutar el archivo PRONOSTICO_MUNICIPIOS.sql el cual tiene el análisis de los promedios 
+
+la función es la que se va utilizar en el dag 
+
+
 ```
-> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ;
+> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ; Contiene los datos maestros 
+> Consultar la siguente tabla: SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.PRONOSTICO_MUNICIPIOS; Contiene los datos del análisis de promedios 
+
+### Parte 3
+```
+
+```
+
 

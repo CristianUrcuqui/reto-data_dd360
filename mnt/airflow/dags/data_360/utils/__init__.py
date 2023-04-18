@@ -88,23 +88,6 @@ def guardar_to_s3(df, s3_bucket_name, file_name):
     # Elimine el archivo local después de subirlo a S3
     os.remove(local_file_name)
 
-# def cargar_ultimo_archivo_s3(s3_bucket_name, prefix):
-#     s3_hook = S3Hook(aws_conn_id="s3_conn_id")
-#     files = s3_hook.list_keys(bucket_name=s3_bucket_name, prefix=prefix)
-#     if files:
-#         last_file = sorted(files)[-1]
-#         last_file_content = s3_hook.read_key(key=last_file, bucket_name=s3_bucket_name)
-
-#         # Verifica si el contenido del archivo no está vacío antes de leerlo con pd.read_csv
-#         if last_file_content.strip():
-#             return pd.read_csv(io.StringIO(last_file_content))
-#         else:
-#             logging.warning(f"El último archivo en S3 ({last_file}) está vacío.")
-#             return None
-#     else:
-#         return None
-
-
 def cargar_archivo():
     timestamp = mexico_now.strftime('%Y-%m-%dT%H-%M-%S')
     file_name = f"pronostico_conagua_{timestamp}.csv"
@@ -120,16 +103,4 @@ def cargar_archivo():
         logging.error("No se pueden guardar los últimos registros en Amazon S3.")
         return
 
-    # if last_file_df is not None:
-    #     # Compara el archivo actual con el anterior y filtra los registros nuevos
-    #     merged_df = pd.merge(last_values, last_file_df, on='nmun', how='outer', indicator=True)
-    #     new_records = merged_df[merged_df['_merge'] == 'left_only'].drop(columns=['_merge'])
-
-    #     # Guarda solo los registros nuevos en S3
-    #     if not new_records.empty:
-    #         guardar_to_s3(new_records, s3_bucket_name, file_name)
-    #     else:
-    #         logging.info("No hay registros nuevos para guardar en Amazon S3.")
-    # else:
-    #     # Si no hay archivo anterior, guarda el archivo actual completo
     guardar_to_s3(last_values, s3_bucket_name, file_name)

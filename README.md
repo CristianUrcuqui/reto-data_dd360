@@ -1,6 +1,6 @@
 # **Taller**
 ## Arquitectura
-![Arquitectura](./docker/img/arc_curso.png)
+![Arquitectura](./docker/img/data_arc.png)
 ## Estructura del proyecto
 
 

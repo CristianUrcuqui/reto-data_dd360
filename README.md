@@ -1,4 +1,4 @@
-# **Taller**
+# **Estudio de Caso: Integración de Datos Climáticos para Análisis en Ciencia de Datos**
 ## Arquitectura
 ![Arquitectura](./docker/img/data_arc.png)
 ## Estructura del proyecto

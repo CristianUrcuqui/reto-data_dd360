@@ -47,13 +47,11 @@ d21e8f31c4ae wodby/adminer:latest "/entrypoint.sh php …" 30 hours ago Up 4 hou
 * Una vez que construido y ejecutado Airflow, abra un navegador web y navegue a [http://localhost:8080](http://localhost:8080).
 Utilice las siguientes credenciales predeterminadas para iniciar sesión:
 
-
-> usuario: airflow
-> Contraseña: airflow
-
+    - usuario: airflow
+    - Contraseña: airflow
 
 * También puedes acceder al servicio de Adminer en el host [http://localhost:32767](http://localhost:32767/). Adminer es una herramienta de gestión de bases de datos en PHP que es ligera y de un solo archivo. Es similar en funcionalidad a phpMyAdmin, pero es más ligera y fácil de instalar debido a su naturaleza de archivo único
-* cómo acceder a la base de datos: en el archivo ``start-airflow.sh`` se ejecuta una serie de sentencias con el fin de crear un usario una base de datos para este ejemplo:
+* Cómo acceder a la base de datos: en el archivo ``start-airflow.sh`` se ejecuta una serie de sentencias con el fin de crear un usuario y una base de datos para este ejemplo:
 
 
 - user: curso_user

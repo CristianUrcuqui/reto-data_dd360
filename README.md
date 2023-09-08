@@ -59,13 +59,13 @@ Utilice las siguientes credenciales predeterminadas para iniciar sesión:
 - base de datos: curso
 
 
-# **Adentrandonos en el Código**
+# **Exploremos el Código**
 
 
-### En Apache Airflow, el código que define tus flujos de trabajo (DAGs) debe colocarse en una carpeta específica conocida como la "carpeta DAG". Hay varias razones para esto:
+### En Apache Airflow, el código que define los flujos de trabajo (DAGs) debe colocarse en una carpeta específica conocida como la "carpeta DAG". Hay varias razones para esto:
 
 
-- Escaneo Automático: Airflow escanea automáticamente la carpeta DAG en busca de nuevos archivos o cambios en los archivos existentes para detectar y cargar nuevos DAGs o actualizaciones. Si los archivos DAG no están en esta carpeta, Airflow no los reconocerá.
+- Escáneo Automático: Airflow escanea automáticamente la carpeta DAG en busca de nuevos archivos o cambios en los archivos existentes para detectar y cargar nuevos DAGs o actualizaciones. Si los archivos DAG no están en esta carpeta, Airflow no los reconocerá.
 
 
 - Organización: Tener una carpeta específica para los DAGs ayuda a mantener el código organizado. Separa los flujos de trabajo (DAGs) de otros componentes o configuraciones de Airflow.

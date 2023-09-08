@@ -1,4 +1,14 @@
 # **Estudio de Caso: Integración de Datos Climáticos para Análisis en Ciencia de Datos**
+
+Examinaremos el desafío que enfrenta un equipo de Ciencia de Datos en México al incorporar datos climáticos en su conjunto de datos para un análisis posterior. El objetivo principal es adquirir y preparar los datos climáticos para su posterior consumo y análisis. El equipo ha identificado un servicio web proporcionado por la Comisión Nacional del Agua(CONAGUA) que ofrece información climática detallada a nivel municipal y por hora.
+
+## Objetivos
+
+1. **Obtener Datos Climáticos:** Consumir periódicamente los registros climáticos más recientes de cada municipio a través del servicio web  https://smn.conagua.gob.mx/es/web-service-api que se actualizan cada hora.
+2. **Crear Tabla de Resúmenes Climáticos:** Generar una tabla que incluya el promedio de temperatura y la precipitación de las últimas dos horas para cada municipio. Estos resúmenes climáticos servirán como datos preparados para análisis posteriores.
+3. **Integrar Datos Climáticos y Municipales:** Combinar los datos climáticos generados con los datos municipales existentes que se encuentran en archivos csv disponibles localmente.
+
+
 ## Arquitectura
 ![Arquitectura](./docker/img/data_arc.png)
 ## Estructura del proyecto

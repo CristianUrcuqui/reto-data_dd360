@@ -7,7 +7,7 @@ services:
   postgres:
     build: './docker/postgres'
     restart: always
-    container_name: postgres
+    container_name: postgres_reto
     logging:
       driver: "json-file"
       options:

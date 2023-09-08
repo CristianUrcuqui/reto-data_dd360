@@ -1,74 +1,45 @@
-# Base Image
-FROM spark-base:latest
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim-buster
 LABEL maintainer="Cristian"
 
-# Arguments that can be set with docker build
-ARG AIRFLOW_VERSION=2.1.4
+# Arguments
+ARG AIRFLOW_VERSION=2.7.0  # Update this to the latest version
 ARG AIRFLOW_HOME=/opt/airflow
 
-# Export the environment variable AIRFLOW_HOME where airflow will be installed
+# Environment Variables
 ENV AIRFLOW_HOME=${AIRFLOW_HOME}
 
+# Install system dependencies
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends gcc python3-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy requirements file
 COPY requirements.txt /requirements.txt
 
-# Install dependencies and tools
-RUN apt-get update -y && \
-    apt-get upgrade -yqq && \
-    apt-get install -yqq --no-install-recommends \
-    python3-dev \
-    wget \
-    libczmq-dev \
-    curl \
-    libssl-dev \
-    git \
-    inetutils-telnet \
-    bind9utils freetds-dev \
-    libkrb5-dev \
-    libsasl2-dev \
-    libffi-dev libpq-dev \
-    freetds-bin build-essential \
-    default-libmysqlclient-dev \
-    apt-utils \
-    rsync \
-    zip \
-    unzip \
-    gcc \
-    vim \
-    netcat \
-    && apt-get autoremove -yqq --purge && apt-get clean
-
-# Upgrade pip
-# Create airflow user 
-# Install apache airflow with subpackages
-RUN pip install --upgrade "pip==20.2.4" && \
+# Install Python packages
+RUN pip install --upgrade pip && \
     useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow && \
-    pip install apache-airflow==${AIRFLOW_VERSION} --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.1.4/constraints-3.7.txt && \
-    pip install --no-cache-dir -r /requirements.txt  
+    pip install "apache-airflow==${AIRFLOW_VERSION}" \
+      --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-3.8.txt" && \ 
+      pip install --no-cache-dir -r /requirements.txt  
 
-
-
-# Copy the airflow.cfg file (config)
-#COPY ./config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
-
-# Set the owner of the files in AIRFLOW_HOME to the user airflow
+# Set permissions
 RUN chown -R airflow: ${AIRFLOW_HOME}
 
-# Copy the entrypoint.sh from host to container (at path AIRFLOW_HOME)
+# Copy and set permissions for the start script
 COPY ./start-airflow.sh ./start-airflow.sh
-
-# Set the entrypoint.sh file to be executable
 RUN chmod +x ./start-airflow.sh
 
-# Set the username to use
+# Switch to airflow user
 USER airflow
 
-# Create the folder dags inside $AIRFLOW_HOME
+# Create dags folder
 RUN mkdir -p ${AIRFLOW_HOME}/dags
 
-# Expose ports (just to indicate that this container needs to map port)
+# Expose port
 EXPOSE 8080
 
-# Execute start-airflow.sh
+# Set entrypoint
 CMD [ "./start-airflow.sh" ]
-
-    

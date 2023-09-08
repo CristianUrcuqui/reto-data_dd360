@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-# Create the user airflow in the HDFS
-hdfs dfs -mkdir -p    /user/airflow/
-hdfs dfs -chmod g+w   /user/airflow
-
 # Move to the AIRFLOW HOME directory
 cd $AIRFLOW_HOME
 
 # Export environement variables
 export AIRFLOW__CORE__LOAD_EXAMPLES=False
+export AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS=False
 
 # Initiliase the metadatabase
 airflow db init

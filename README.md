@@ -1,181 +1,309 @@
-# reto-data_dd360
-## Arquitectura 
-![Arquitectura Propuesta](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/DD360_RETO.drawio.png)
+# **Taller**
+## Arquitectura
+![Arquitectura](./docker/img/arc_curso.png)
 ## Estructura del proyecto
+
 
 Estos son los archivos y directorios más relevantes del proyecto:
 ```
 .
 ├── docker #Python dependencies
-    ├── airflow
-        ├── Dockerfile
-        ├── requirements.txt
-        ├── start-airflow.sh
-    ├── docs
-        ├── queries_snowflake.sql # queries ejecutadas en snowflake
-    postgres
-        ├── Dockerfile
-        ├── init-hive-db.txt
+├── airflow
+├── Dockerfile
+├── requirements.txt
+├── start-airflow.sh
+postgres
+├── Dockerfile
+├── init-hive-db.txt
 ├──mnt
-    ├── airflow
-        ├── dags/ # contiene los dags y puede organizar sus DAG en subcarpetas 
+├── airflow
+├── dags/
 ├── .env
 ├── docker-compose
 ```
 # Comenzando
 
+
 ## Requisitos de instalación
+
 
 - [Docker](https://docs.docker.com/install/) `2.1.0.1` or greater.
 
-## Iniciando Airflow 
+
+# **Iniciando**
+* Una vez descargada la version de [Docker](https://docs.docker.com/desktop/release-notes/#4120) lo primero es clonar el repositorio con el comando ``git clone`` seguido de la url del repositorio
+* Tendremos que ubicarnos en carpeta que se creó, y verificamos que esté en la rama ``master``
+* Ejecutamos en la terminal el comando ``docker-compose up -d ``
+* Si es la primera vez que crea este contenedor en su máquina toma unos minutos crearla, ya que debe instalar las dependencias.
+* Si todo sale bien, ya podrá ver su contenedor en docker, para verificar esto puede escribir ``docker ps`` debería ver algo similar a esto
 ```
-Start airflow docker-compose up -d   
-Stop airflow docker-compose stop
-restart airflow docker-compose restart
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+d21e8f31c4ae wodby/adminer:latest "/entrypoint.sh php …" 30 hours ago Up 4 hours (healthy) 0.0.0.0:32767->9000/tcp adminer
+17a96c83c494 reto-data_dd360-airflow "./start-airflow.sh" 2 days ago Up 4 hours (unhealthy) 0.0.0.0:8080->8080/tcp airflow
+529c034214dc reto-data_dd360-postgres "docker-entrypoint.s…" 2 days ago Up 4 hours (healthy) 0.0.0.0:32769->5432/tcp postgres_reto
 ```
 
-## Acceder a la interfaz web
 
-Una vez que construya y ejecute Airflow, abra un navegador web y navegue a [http://localhost:8080](http://localhost:8080).
+* Una vez que construido y ejecutado Airflow, abra un navegador web y navegue a [http://localhost:8080](http://localhost:8080).
 Utilice las siguientes credenciales predeterminadas para iniciar sesión:
 
-> usuario: airflow  
+
+> usuario: airflow
 > Contraseña: airflow
 
-Una vez iniciada la sesión, accederá a la interfaz principal de Airflow.
 
-## Se deben crear dos Conexiones para que funcione el flujo 
-
-Se enviarán al correo las credenciales de un usuario creado.
-Algo más que podemos ver son los principios en gobiernos de datos.
-
-![conexión de Snowflake](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/conexion_sf.png)
-
-Además se creó un usuario de AWS con acceso a s3.
-
-![conexción de s3](https://github.com/CristianUrcuqui/reto-data_dd360/blob/master/docker/docs/img/s3_conn.png)
-
-##  Iniciando el reto 
-
-Teniendo una secuencia nos vamos a guiar en los puntos expuesto es el documento enviado.
-
-El equipo de Ciencia de Datos se ha acercado a ti ya que necesitan incorporar información
-sobre clima dentro de sus modelos predictivos. Para ello, han encontrado el siguiente servicio
-web: https://smn.conagua.gob.mx/es/web-service-api. Te piden que los apoyes en lo siguiente:
-
-La ruta en la que se guardan toda la lógica es en dags/data_360/utils
-
-### Parte 1
-```
-* Cada hora debes consumir el último registro devuelto por el servicio de pronóstico por municipio y por hora.
-
--Para resolver este primer punto se ha creado un archivo .Py  __init__.py. 
--este archivo inicia el proceso descargando la información de la API de pronósticos.
-
--pronostico_conagua() -> descarga los datos, al acceder a la api lo primero para tener en cuenta, se descarga un archivo .GZ este archivo se debe descomprimir para después leer el .JSON. Esta función retorna la variable data, la cual tiene los datos ya procesados en un dataframe con los datos semi estructurados.
--ultimo_registro(data) -> esta función nos devuelve el último registros de acuerdo al municipio y hora 
--guardar_to_s3(df, s3_bucket_name, file_name) -> esta función se encarga de guardar el archivo en un bucket, se le debe pasar los parámetros data que es del punto a. el nombre del bucket y el nombre del archivo el cual se va guardar con una marca de tiempo de acuerdo a la hora en que se ejecute.
--cargar_archivo() -> se encarga de llamar la función del punto C y aquí es donde le pasamos los parámetros. Esta función es la que se llamará en el DAG. 
-```
-### parte 2
-```
-* A partir de los datos extraídos en el punto 1, generar una tabla a nivel municipio en la que cada registro contenga
-* el promedio de temperatura y precipitación de las últimas dos horas.
-
-- cargar_archivo_mas_reciente_a_snowflake() -> esta funcion se encarga de escoger el archivo más reciente del bucket de s3, posterior a eso se carga a snowflake,
-- el primer paso es crear una tabla temporal create_temp_table_query
-- creamos un stage en snowflake el cual se va encargar de hacer la comunicación entre s3 y snowflake
-mas en https://docs.snowflake.com/en/sql-reference/sql/create-stage
-- insert_query insertamos la data de la tabla temporal en la tabla original con un current, 
-además esto nos ayuda a evitar duplicidad en los datos.
-para esta función retornamos el número de row insertados, esto con el fin de auditar los datos que se inserta, 
-por que hacer esto? pensé en esto debido    a que esta tabla es nuestra tabla máster,
-y en necesario hacer esto en caso de querer conciliar la información de acuerdo a la data que se inserta en 
-s3 y la data que se inserta en snowflake 
-
-la función es la que se va utilizar en el dag.
-
-además se utiliza el operador Snowflake operator para ejecutar el archivo PRONOSTICO_MUNICIPIOS.sql el cual tiene el análisis de los promedios 
-
-la función es la que se va utilizar en el dag 
+* También puedes acceder al servicio de Adminer en el host [http://localhost:32767](http://localhost:32767/). Adminer es una herramienta de gestión de bases de datos en PHP que es ligera y de un solo archivo. Es similar en funcionalidad a phpMyAdmin, pero es más ligera y fácil de instalar debido a su naturaleza de archivo único
+* cómo acceder a la base de datos: en el archivo ``start-airflow.sh`` se ejecuta una serie de sentencias con el fin de crear un usario una base de datos para este ejemplo:
 
 
-```
-> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.SERVICE_PRONOSTICO_POR_MUNICIPIOS_GZ; Contiene los datos maestros > >
-> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.PRONOSTICO_MUNICIPIOS; Contiene los datos del análisis de promedios 
-
-### Parte 3
-```
-* Hay una carpeta “data_municipios” que contiene datos a nivel municipio organizados
-por fecha, cada vez que tu proceso se ejecute debe generar una tabla en la cual se
-crucen los datos más recientes de esta carpeta con los datos generados en el punto 2.
-
-- para esto cargamos los archivos en un carpeta local ubicación dags/data_360/files
-
-- con los archivos en el entorno local podemos crear un función la cual mezcla los dos archivos 
-read_files_to_dataframe -> el cual requiere el archivo 1 y el 2 esto retorna la combinación de los df combined_df
-
-- load_dataframe_to_snowflake -> cargamos el resultado del df a snowflake 
-
-- load_data_to_snowflake -> esta función es la que llamaremos en el dag le pasamos estos paramentos (file_path1, file_path2, table_name, snowflake_conn_id, database_name,schema_name)
-
-la tabla en la que guarda la data se trunca cada vez que inicia el proceso.
-```
-esta tabla contiene los datos de los archivos locales 
-> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_MUNICIPIOS;
-```
-El nombre del archivo DATA_PRONOSTICO_MUNICIPIO.sql cruza los datos cada que se ejecuta el proceso y crea la siguiente tabla 
-```
-> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO;
-
-### Parte 4 
-```
-Versiona todas tus tablas de acuerdo a la fecha y hora en la que se ejecutó el proceso,
-en el caso del entregable del punto 3, además, genera una versión “current” que
-siempre contenga una copia de los datos más recientes.
-
-Las tablas creadas contiene una la columna insertd_at, la cual contiene la fecha en la que se insertan los datos a las tablas, teniendo asi una marca de tiempo de los datos insertados 
-
-además se creo una vista en snowflake 
-
-esta tabla contiene los datos más recientes del punto 3 
-```
-> SELECT * FROM  CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.DATA_PRONOSTICO_MUNICIPIO_version_current;
-
-# Extras 
-## Logs
-```
-Este proceso guarda los logs que se generan en airflow, además estos logs se guardan en snowflake  para ello se ha creado un archivo .Py llamado settings.py el cual contiene funciones que nos ayudan a guardar los logs en snowflake y ejecutar consultas en snowflake 
-```
-se pueden consultar los logs de airflow en la siguiente tabla 
-
-> SELECT * FROM CONAGUA_PRONOSTICO.API_PRONOSTICO_CONAGUA_MX.AIRFLOW_TASK_LOGS;
+- user: curso_user
+- password: curso_password
+- base de datos: curso
 
 
-# Dag 
+# **Adentrandonos en el Código**
 
-El Dag llamado weather_data_dag.py se ejecuta cada hora.
 
-## Preguntas adicionales
-● ¿Qué mejoras propondrías a tu solución para siguientes versiones?
-He tratado de utilizar herramientas que están a la vanguardia de este tipo de retos como lo es S3; snowflake. intente hacer un ejercicio lo más real posible, por ende creo que una mejora para una siguiente versión seria ver nuevas arquitecturas como análisis en tiempo real, con KSQL y Kafka, O tocar temas de data catalog para no perder la trazabilidad de los datos en cuanto a definiciones. demás de alertamientos y notificaciones, puede ser por slack o al correo informado si falla o si queremos mensajes más informativos,
-el código propuesto es algo genérico para el reto, habría que modificacione algunas funciones para que se pueden adaptar a cualquier tiempo de requerimiento de este tipo.
+### En Apache Airflow, el código que define tus flujos de trabajo (DAGs) debe colocarse en una carpeta específica conocida como la "carpeta DAG". Hay varias razones para esto:
 
-● Tu solución le ha gustado al equipo y deciden incorporar otros procesos, habrá nuevas
-personas colaborando contigo, ¿Qué aspectos o herramientas considerarías para
-escalar, organizar y automatizar tu solución?
 
-una forma de escalar esto es creando un gobierno de datos, de esa forma los equipos solo se centran en lo que les interesan, además de proteger la integridad de los datos. 
+- Escaneo Automático: Airflow escanea automáticamente la carpeta DAG en busca de nuevos archivos o cambios en los archivos existentes para detectar y cargar nuevos DAGs o actualizaciones. Si los archivos DAG no están en esta carpeta, Airflow no los reconocerá.
 
-empezar a usar roles para cada desarrollador, con el fin de poder asegurarse que el código que se proporciona es de calidad.
 
-airflow es una buena herramienta de orquestación, por ende seria lo mejor empezar a mirar como se migar a un kubernetes y empezar a trabajar con jenkins para hacer pasos a producción mientras la máquina sigue prendida  
+- Organización: Tener una carpeta específica para los DAGs ayuda a mantener el código organizado. Separa los flujos de trabajo (DAGs) de otros componentes o configuraciones de Airflow.
 
-github o bitbucket son herramientas para control de versión que se puede seguir usado
 
-snowflake es una buena herramienta para procesar información en grandes masas, se adapta muy bien a cualquier entorno.
+- Configurabilidad: Aunque "dags" es la carpeta predeterminada, puedes configurar la ubicación exacta de esta carpeta en el archivo de configuración de Airflow (airflow.cfg) mediante la opción dags_folder. Esto te da flexibilidad en caso de que desees cambiar la ubicación por razones de estructura de proyecto o permisos.
 
-Aws, S3 a mi parecer es una buena práctica almacenar los datos, ya que se pueden utilizar en los requerimientos que queramos, sin tener que llenar la memoria de nuestra instancia de airflow 
 
-> video tutorial https://drive.google.com/file/d/1zeOy4YhD_ApPAvMbyY1197NkExVNIkoG/view?usp=share_link
+- Aislamiento: Mantener los DAGs en una carpeta separada puede ser útil para cuestiones de permisos y seguridad. Por ejemplo, podrías querer restringir el acceso a esta carpeta para evitar cambios no autorizados en tus flujos de trabajo.
+
+
+- Facilita la Colaboración: Si estás trabajando en un equipo, tener una carpeta dedicada para DAGs facilita la colaboración, ya que los miembros del equipo saben exactamente dónde encontrar y colocar los flujos de trabajo.
+
+
+Sabiendo esto vamos a explorar lo construido para que funcione este proceso.
+
+
+
+
+## Documentación de Funciones para Airflow `settings.py`
+
+
+---
+
+
+### Constantes
+
+
+- **`POSTGRES_CONN_ID`**:
+- **Descripción**: Define la conexión a PostgreSQL utilizada en Airflow.
+
+
+---
+
+
+### Funciones
+
+
+---
+
+
+#### `get_default_args()`
+**Descripción**: Devuelve un diccionario con argumentos predeterminados para definir un DAG en Airflow.
+
+
+---
+
+
+#### `execute_postgres(sql, postgres_conn_id, with_cursor=False)`
+**Descripción**: Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.
+
+
+- **Parámetros**:
+- `sql`: La consulta SQL a ejecutar.
+- `postgres_conn_id`: El ID de la conexión a PostgreSQL.
+- `with_cursor`: Si es `True`, devuelve el cursor junto con los resultados.
+
+
+---
+
+
+#### `update_logs(details)`
+**Descripción**: Actualiza o inserta registros en la tabla `AIRFLOW_TASK_LOGS` basado en la información proporcionada.
+
+
+- **Parámetros**:
+- `details`: Un diccionario con detalles sobre la tarea de Airflow.
+
+
+---
+
+
+#### `set_alert_handling(context)`
+**Descripción**: Maneja alertas y registra detalles sobre la tarea de Airflow.
+
+
+- **Parámetros**:
+- `context`: El contexto de la tarea proporcionado por Airflow.
+
+
+---
+
+
+#### `on_error_call(context)`
+**Descripción**: Función callback llamada cuando una tarea falla.
+
+
+- **Parámetros**:
+- `context`: El contexto de la tarea proporcionado por Airflow.
+
+
+---
+
+
+#### `on_success_call(context)`
+**Descripción**: Función callback llamada cuando una tarea se completa exitosamente.
+
+
+- **Parámetros**:
+- `context`: El contexto de la tarea proporcionado por Airflow.
+
+
+
+
+## Clase `WeatherForecast ` `weather_api.py `
+Esta clase se encarga de manejar las operaciones relacionadas con la obtención y procesamiento de los datos de pronóstico del tiempo.
+
+
+---
+
+
+### Constructor `__init__(self, url, headers)`
+
+
+Inicializa una instancia de la clase `WeatherForecast`.
+
+
+**Parámetros**:
+- `url`: URL desde donde se obtendrán los datos.
+- `headers`: Encabezados para la solicitud HTTP.
+
+
+---
+
+
+### Método `fetch_weather_data(self)`
+
+
+Realiza una solicitud HTTP para descargar datos comprimidos de pronóstico del tiempo desde la URL especificada. Luego, descomprime el archivo y lo convierte en un DataFrame de pandas.
+
+
+**Retorno**:
+- DataFrame con los datos del pronóstico del tiempo o `None` si hubo un error.
+
+
+---
+
+
+### Método `get_latest_records(self, data)`
+
+
+Obtiene los registros más recientes de los datos proporcionados.
+
+
+**Parámetros**:
+- `data`: DataFrame con los datos del pronóstico del tiempo.
+**Retorno**:
+- DataFrame con los registros más recientes o `None` si hubo un error.
+
+
+---
+
+
+### Método `save_to_local(self, df, file_path)`
+
+
+Guarda los datos proporcionados en un archivo CSV local.
+
+
+**Parámetros**:
+- `df`: DataFrame con los datos a guardar.
+- `file_path`: Ruta donde se guardará el archivo.
+**Retorno**:
+- `True` si los datos se guardaron correctamente, `False` en caso contrario.
+
+
+---
+
+
+## Función `run_weather_forecast_pipeline(url, headers, file_name)`
+
+
+Ejecuta el pipeline completo de extracción, procesamiento y almacenamiento de los datos de pronóstico del tiempo.
+
+
+**Parámetros**:
+- `url`: URL desde donde se obtendrán los datos.
+- `headers`: Encabezados para la solicitud HTTP.
+- `file_name`: Nombre del archivo donde se guardarán los datos.
+
+
+# Weather Data DAG
+
+
+Este módulo define un Directed Acyclic Graph (DAG) en Airflow para la adquisición, procesamiento y almacenamiento de datos de pronóstico del tiempo.
+
+
+## Importaciones
+
+
+- **Librerías estándar**: Se utilizan para operaciones básicas como manipulación de fechas, registro (logging) y manejo de archivos.
+- **Librerías de terceros**: Incorporan funcionalidades específicas de Airflow, manejo de bases de datos y operaciones con datos.
+- **Módulos locales**: Se refieren a módulos específicos del proyecto que proporcionan funcionalidades adicionales.
+
+
+## Constantes y Variables
+
+
+- `QUERIES_BASE_PATH`: Ruta donde se encuentran las consultas SQL.
+- `FILE_LOCAL`: Lista de nombres de archivos locales.
+- `MEXICO_TIMEZONE`: Zona horaria de México.
+- `URL` y `HEADERS`: Variables de Airflow para interactuar con la API de CONAGUA.
+
+
+## Funciones
+
+
+### `load_data_to_postgres(file_path, table_name, **kwargs)`
+
+
+Carga datos desde un archivo CSV en una tabla de PostgreSQL.
+
+
+**Parámetros**:
+- `file_path`: Ruta del archivo CSV.
+- `table_name`: Nombre de la tabla en la que se cargarán los datos.
+
+
+## DAG Definition
+
+
+Se define un DAG con el nombre `'weather_data_dag'`. Este DAG se encarga de extraer datos de pronóstico del tiempo, procesarlos y almacenarlos.
+
+
+### Tareas (Tasks) del DAG:
+
+
+1. `run_this`: Ejecuta un script SQL para copiar datos.
+2. `load_data_task`: Carga datos del pronóstico del tiempo en una tabla temporal de PostgreSQL.
+3. `pronostico_municipios`: Ejecuta una consulta SQL relacionada con el pronóstico por municipios.
+4. `data_pronostico`: Ejecuta una consulta SQL para obtener datos de pronóstico.
+5. `local_load`: Ejecuta el pipeline de pronóstico del tiempo y guarda los datos en un archivo CSV.
+6. `trancate_table`: Ejecuta una consulta SQL para truncar y/o crear una tabla.
+
+
+## Dependencias entre tareas
+
+
+Las tareas se ejecutan en un orden específico, definido por las dependencias entre ellas. Estas dependencias aseguran que los datos se procesen y almacenen en el orden correcto.
